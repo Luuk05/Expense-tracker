@@ -16,14 +16,23 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
+import Popup from "./components/Popup";
+import Read from "./components/Read";
+
 let App = () => {
+  let [editMode, setEditMode] = useState("false");
+
   return (
     <Grid
       container
       direction="column"
       alignItems="center"
       justifyContent="center"
-    ></Grid>
+    >
+      <Popup editMode={editMode}/>
+      <Read changeEditMode={(editMode) => setEditMode(editMode)} />
+
+    </Grid>
   );
 };
 

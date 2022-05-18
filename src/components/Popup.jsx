@@ -16,8 +16,8 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-let Popup = () => {
-  const [open, setOpen] = useState(false);
+let Popup = ({ editMode }) => {
+  let [open, setOpen] = useState(false);
 
   let [name, setName] = useState("");
   let [amount, setAmount] = useState(0);
@@ -35,10 +35,13 @@ let Popup = () => {
 
   const handleClose = () => {
     setOpen(false);
+    setName("")
+    setAmount(0)
+    setCategory("")
   };
 
   return (
-    <div>
+    <>
       <Button variant="contained" onClick={handleClickOpen}>
         Voeg uitgave toe
       </Button>
@@ -52,10 +55,8 @@ let Popup = () => {
               id="name"
               autoComplete="off"
               onChange={(e) => {
-                e.target.value = e.target.value.charAt(0).toUpperCase();
+                e.target.value = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);;
                 setName(e.target.value);
-                // e.target.value = 1;
-                // console.log(e.target.value);
               }}
             />
 
@@ -80,7 +81,7 @@ let Popup = () => {
                 labelId="demo-simple-select-label"
                 label="Categorie"
                 id="category"
-                value={category}
+                value={ category }
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <MenuItem value="Boodschappen">Boodschappen 🛒</MenuItem>
@@ -107,8 +108,8 @@ let Popup = () => {
             <Button onClick={handleClose}>Cancel</Button>
             <Button
               onClick={() => {
-                handleClose();
                 createExpense();
+                handleClose();
               }}
               disabled={!name || !amount || !category}
               variant="contained"
@@ -119,7 +120,7 @@ let Popup = () => {
           </DialogActions>
         </DialogContent>
       </Dialog>
-    </div>
+    </>
   );
 };
 

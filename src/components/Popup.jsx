@@ -27,10 +27,6 @@ let Popup = ({ open, setOpen }) => {
     await addDoc(expensesRef, { name, amount, category });
   };
 
-  // const handleClickOpen = () => {
-  //   setOpen(true);
-  // };
-
   const handleClose = () => {
     setOpen(false);
     setName("");

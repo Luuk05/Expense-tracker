@@ -19,7 +19,7 @@ import { SvgIcon } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Popup from "./Popup";
 
-let Read = () => {
+let Read = ({ setOpen }) => {
   let [expenses, setExpenses] = useState([]);
 
   let expensesRef = collection(db, "expenses");
@@ -67,6 +67,7 @@ let Read = () => {
                 </Typography>
                 <ModeEditOutlineOutlinedIcon
                   sx={{ height: 20, width: 20, ml: 4, cursor: "pointer" }}
+                  onClick={() => setOpen(true)}
                 />
               </Grid>
             </Grid>

@@ -21,6 +21,7 @@ import Read from "./components/Read";
 
 let App = () => {
   let [open, setOpen] = useState(false);
+  // let [expense, setExpense] = useState(false);
 
   return (
     <Grid
@@ -33,7 +34,7 @@ let App = () => {
         Voeg uitgave toe
       </Button>
       <Popup open={open} setOpen={setOpen} />
-      <Read />
+      <Read setOpen={(open) => setOpen(open)} />
     </Grid>
   );
 };

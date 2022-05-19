@@ -16,9 +16,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-let Popup = ({ editMode }) => {
-  let [open, setOpen] = useState(false);
-
+let Popup = ({ open, setOpen }) => {
   let [name, setName] = useState("");
   let [amount, setAmount] = useState(0);
   let [category, setCategory] = useState("");
@@ -29,22 +27,19 @@ let Popup = ({ editMode }) => {
     await addDoc(expensesRef, { name, amount, category });
   };
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
+  // const handleClickOpen = () => {
+  //   setOpen(true);
+  // };
 
   const handleClose = () => {
     setOpen(false);
-    setName("")
-    setAmount(0)
-    setCategory("")
+    setName("");
+    setAmount(0);
+    setCategory("");
   };
 
   return (
     <>
-      <Button variant="contained" onClick={handleClickOpen}>
-        Voeg uitgave toe
-      </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogContent sx={{ m: 0, p: 4.5 }}>
           <DialogTitle sx={{ p: 0 }}>Vul hier je kosten in</DialogTitle>
@@ -55,7 +50,9 @@ let Popup = ({ editMode }) => {
               id="name"
               autoComplete="off"
               onChange={(e) => {
-                e.target.value = e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1);;
+                e.target.value =
+                  e.target.value.charAt(0).toUpperCase() +
+                  e.target.value.slice(1);
                 setName(e.target.value);
               }}
             />
@@ -81,7 +78,7 @@ let Popup = ({ editMode }) => {
                 labelId="demo-simple-select-label"
                 label="Categorie"
                 id="category"
-                value={ category }
+                value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
                 <MenuItem value="Boodschappen">Boodschappen 🛒</MenuItem>

@@ -20,7 +20,7 @@ import Popup from "./components/Popup";
 import Read from "./components/Read";
 
 let App = () => {
-  let [editMode, setEditMode] = useState("false");
+  let [open, setOpen] = useState(false);
 
   return (
     <Grid
@@ -29,9 +29,11 @@ let App = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Popup editMode={editMode}/>
-      <Read changeEditMode={(editMode) => setEditMode(editMode)} />
-
+      <Button variant="contained" onClick={() => setOpen(true)}>
+        Voeg uitgave toe
+      </Button>
+      <Popup open={open} setOpen={setOpen} />
+      <Read />
     </Grid>
   );
 };

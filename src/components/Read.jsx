@@ -15,70 +15,64 @@ import Paper from "@mui/material/Paper";
 import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import { SvgIcon } from '@mui/material';
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined';
+import { SvgIcon } from "@mui/material";
+import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Popup from "./Popup";
 
-let Read = (props) => {
+let Read = () => {
   let [expenses, setExpenses] = useState([]);
 
-  let expensesRef = collection(db, "expenses")
+  let expensesRef = collection(db, "expenses");
 
   useEffect(() => {
     const getExpenses = async () => {
       const data = await getDocs(expensesRef);
-      setExpenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })))
-    }
-    getExpenses()
-  }, [])
-
-  const openPopUp = () => {
-    return (
-      <Popup />
-    )
-  };
+      setExpenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+    };
+    getExpenses();
+  }, []);
 
   return (
     <>
       <h1>Jouw uitgaven</h1>
-      <Grid sx={{ display: "flex", flexDirection: "column", rowGap: "18px" }} >
+      <Grid sx={{ display: "flex", flexDirection: "column", rowGap: "18px" }}>
         {expenses.map((expense, index) => {
           return (
             <Grid
-            sx={{
-              display: "flex",
-              justifyContent: "space-between",
-              alignItems: "center",
-              width: "600px",
-              py: 2.5,
-              px: 4.5,
-              borderRadius: 3,
-              boxShadow: 2,
-            }}
-          >
-            <Grid sx={{ display: "flex", alignItems: "center" }}>
-              <Grid sx={{ display: "flex", alignItems: "center", pr: 2 }}>
-                <Avatar>W</Avatar>
+              sx={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+                width: "600px",
+                py: 2.5,
+                px: 4.5,
+                borderRadius: 3,
+                boxShadow: 2,
+              }}
+            >
+              <Grid sx={{ display: "flex", alignItems: "center" }}>
+                <Grid sx={{ display: "flex", alignItems: "center", pr: 2 }}>
+                  <Avatar>W</Avatar>
+                </Grid>
+                <Grid>
+                  <Typography variant="h6">{expense.name}</Typography>
+                  <Typography sx={{ color: "#9e9e9e" }} variant="body2">
+                    {expense.category}
+                  </Typography>
+                </Grid>
               </Grid>
-              <Grid>
-                <Typography variant="h6">{expense.name}</Typography>
-                <Typography sx={{ color: "#9e9e9e" }} variant="body2">
-                {expense.category}
+              <Grid sx={{ display: "flex" }}>
+                <Typography variant="body1">
+                  &minus; €{expense.amount}{" "}
                 </Typography>
+                <ModeEditOutlineOutlinedIcon
+                  sx={{ height: 20, width: 20, ml: 4, cursor: "pointer" }}
+                />
               </Grid>
             </Grid>
-            <Grid sx={{ display: "flex" }}>
-              <Typography variant="body1">&minus; €{expense.amount} </Typography>
-              <ModeEditOutlineOutlinedIcon sx={{ height: 20, width: 20, ml: 4, cursor: "pointer" }} onClick={openPopUp}/>
-            </Grid>
-
-          </Grid>
-
           );
         })}
-        
       </Grid>
-      
     </>
   );
 };

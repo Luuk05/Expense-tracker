@@ -16,7 +16,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-let Popup = ({ open, setOpen }) => {
+let Popup = ({ open, setOpen, editObject }) => {
   let [name, setName] = useState("");
   let [amount, setAmount] = useState(0);
   let [category, setCategory] = useState("");
@@ -24,7 +24,11 @@ let Popup = ({ open, setOpen }) => {
   let expensesRef = collection(db, "expenses");
 
   let createExpense = async () => {
-    await addDoc(expensesRef, { name, amount, category });
+    await addDoc(expensesRef, { 
+      name: name, 
+      amount: parseFloat(amount), 
+      category :category 
+    });
   };
 
   const handleClose = () => {
@@ -33,6 +37,8 @@ let Popup = ({ open, setOpen }) => {
     setAmount(0);
     setCategory("");
   };
+
+  console.log(editObject)
 
   return (
     <>

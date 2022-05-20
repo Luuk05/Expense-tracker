@@ -21,7 +21,7 @@ import Read from "./components/Read";
 
 let App = () => {
   let [open, setOpen] = useState(false);
-  // let [expense, setExpense] = useState(false);
+  let [editObject, setEditObject] = useState({});
 
   return (
     <Grid
@@ -30,11 +30,14 @@ let App = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Button variant="contained" onClick={() => setOpen(true)}>
+      <Button variant="contained" onClick={() => {
+        setEditObject({})
+        setOpen(true)
+      }}>
         Voeg uitgave toe
       </Button>
-      <Popup open={open} setOpen={setOpen} />
-      <Read setOpen={(open) => setOpen(open)} />
+      <Popup open={open} setOpen={setOpen} editObject={editObject} />
+      <Read setOpen={(open) => setOpen(open)} setEditObject={(editObject) => setEditObject(editObject)}  />
     </Grid>
   );
 };

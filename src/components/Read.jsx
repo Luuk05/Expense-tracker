@@ -19,7 +19,7 @@ import { SvgIcon } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
 import Popup from "./Popup";
 
-let Read = ({ setOpen }) => {
+let Read = ({ setOpen, setEditObject }) => {
   let [expenses, setExpenses] = useState([]);
 
   let expensesRef = collection(db, "expenses");
@@ -36,9 +36,9 @@ let Read = ({ setOpen }) => {
     <>
       <h1>Jouw uitgaven</h1>
       <Grid sx={{ display: "flex", flexDirection: "column", rowGap: "18px" }}>
-        {expenses.map((expense, index) => {
+        {expenses.map((expense, key) => {
           return (
-            <Grid
+            <Grid key={key}
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -63,11 +63,18 @@ let Read = ({ setOpen }) => {
               </Grid>
               <Grid sx={{ display: "flex" }}>
                 <Typography variant="body1">
-                  &minus; €{expense.amount}{" "}
+                  &minus; €{expense.amount.toFixed(2)}{""}
                 </Typography>
                 <ModeEditOutlineOutlinedIcon
                   sx={{ height: 20, width: 20, ml: 4, cursor: "pointer" }}
-                  onClick={() => setOpen(true)}
+                  onClick={() => {
+                    setOpen(true)
+                    setEditObject({
+                      index: key,
+                      name: expense.name,
+                      amount: expense.amount,
+                      category: expense.category})
+                  }}
                 />
               </Grid>
             </Grid>

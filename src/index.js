@@ -13,6 +13,10 @@ const theme = createTheme({
       textTransform: "capitalize",
       fontSize: 17,
     },
+    h1: {
+      fontWeight: 700,
+      fontSize: "32px",
+    },
   },
 });
 

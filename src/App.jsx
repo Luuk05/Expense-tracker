@@ -29,6 +29,7 @@ let App = () => {
       direction="column"
       alignItems="center"
       justifyContent="center"
+      padding={4}
     >
       <Button
         variant="contained"

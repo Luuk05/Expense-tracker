@@ -13,16 +13,14 @@ import TextField from "@mui/material/TextField";
 import InputLabel from "@mui/material/InputLabel";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 
-let Popup = ({ open, setOpen, editObject }) => {
+let Popup = ({ open, setOpen, editObject, setChange }) => {
   let [name, setName] = useState("");
   let [amount, setAmount] = useState("");
   let [category, setCategory] = useState("");
@@ -30,6 +28,7 @@ let Popup = ({ open, setOpen, editObject }) => {
   let expensesRef = collection(db, "expenses");
 
   let createExpense = async () => {
+    setChange(true);
     const docRef = await addDoc(expensesRef, {
       name: name,
       amount: parseFloat(amount).toFixed(2),
@@ -44,6 +43,7 @@ let Popup = ({ open, setOpen, editObject }) => {
   };
 
   let updateExpense = async () => {
+    setChange(true);
     const documentRef = doc(db, "expenses", editObject.id);
     await updateDoc(documentRef, {
       name: name,
@@ -112,22 +112,22 @@ let Popup = ({ open, setOpen, editObject }) => {
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <MenuItem value="Boodschappen">Boodschappen 🛒</MenuItem>
-                <MenuItem value="Uitgaan">Uitgaan 🍻</MenuItem>
-                <MenuItem value="Hypotheeklasten of huur">
-                  Hypotheeklasten of huur 💵
+                <MenuItem value="Boodschappen 🛒">Boodschappen 🛒</MenuItem>
+                <MenuItem value="Uitgaan 🍻">Uitgaan 🍻</MenuItem>
+                <MenuItem value="Hypotheeklasten of huur 🏡">
+                  Hypotheeklasten of huur 🏡
                 </MenuItem>
-                <MenuItem value="Kosten voor energie, gas en water">
+                <MenuItem value="Kosten voor energie, gas en water ⚡">
                   Kosten voor energie, gas en water ⚡
                 </MenuItem>
-                <MenuItem value="Kosten voor mijn auto">
-                  Kosten voor mijn auto 🚗
-                </MenuItem>
-                <MenuItem value="Kosten voor internet en tv">
+                <MenuItem value="Kosten voor internet en tv 📺">
                   Kosten voor internet en tv 📺
                 </MenuItem>
-                <MenuItem value="Belastingen">Belastingen 😔</MenuItem>
-                <MenuItem value="Overig">Overig 📅</MenuItem>
+                <MenuItem value="Kosten voor mijn auto 🚗">
+                  Kosten voor mijn auto 🚗
+                </MenuItem>
+                <MenuItem value="Belastingen 😔">Belastingen 😔</MenuItem>
+                <MenuItem value="Overig 💵">Overig 💵</MenuItem>
               </Select>
             </FormControl>
           </FormControl>

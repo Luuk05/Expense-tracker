@@ -8,22 +8,29 @@ import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutl
 import ClearIcon from "@mui/icons-material/Clear";
 import { blue } from "@mui/material/colors";
 
-let Read = ({ setOpen, setEditObject }) => {
+let Read = ({ setOpen, setEditObject, change, setChange }) => {
   let [expenses, setExpenses] = useState([]);
 
   let expensesRef = collection(db, "expenses");
 
-  useEffect(() => {
-    const getExpenses = async () => {
-      const data = await getDocs(expensesRef);
-      setExpenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
-    };
-    getExpenses();
-  }, []);
-
   const removeExpense = async (documentId) => {
+    setChange(true);
     await deleteDoc(doc(db, "expenses", documentId));
   };
+  
+  useEffect(() => {
+    const getExpenses = async () => {
+      let data = await getDocs(expensesRef);
+      setExpenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
+
+      setChange(false);
+    };
+    getExpenses();
+    
+    console.log('Changes? ', change)
+  }, [change]);
+
+  
 
   return (
     <>
@@ -48,12 +55,12 @@ let Read = ({ setOpen, setEditObject }) => {
             >
               <Grid sx={{ display: "flex", alignItems: "center" }}>
                 <Grid sx={{ display: "flex", alignItems: "center", pr: 2 }}>
-                  <Avatar sx={{ bgcolor: blue[700], p: 0.2 }}>📅</Avatar>
+                  <Avatar sx={{ bgcolor: blue[700], p: 0.2 }}>{expense.category.split(" ")[expense.category.split(" ").length -1]}</Avatar>
                 </Grid>
                 <Grid>
                   <Typography variant="h6">{expense.name}</Typography>
                   <Typography sx={{ color: "#9e9e9e" }} variant="body2">
-                    {expense.category}
+                    {  expense.category.slice(0, expense.category.length - 2) }
                   </Typography>
                 </Grid>
               </Grid>

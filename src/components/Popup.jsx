@@ -1,6 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import {
+  collection,
+  getDocs,
+  addDoc,
+  doc,
+  updateDoc,
+} from "firebase/firestore";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
@@ -18,27 +24,48 @@ import DialogTitle from "@mui/material/DialogTitle";
 
 let Popup = ({ open, setOpen, editObject }) => {
   let [name, setName] = useState("");
-  let [amount, setAmount] = useState(0);
+  let [amount, setAmount] = useState("");
   let [category, setCategory] = useState("");
 
   let expensesRef = collection(db, "expenses");
 
   let createExpense = async () => {
-    await addDoc(expensesRef, { 
-      name: name, 
-      amount: parseFloat(amount), 
-      category :category 
+    const docRef = await addDoc(expensesRef, {
+      name: name,
+      amount: parseFloat(amount).toFixed(2),
+      category: category,
+    });
+    const docId = docRef.id;
+
+    const documentRef = doc(db, "expenses", docId);
+    await updateDoc(documentRef, {
+      id: docId,
+    });
+  };
+
+  let updateExpense = async () => {
+    const documentRef = doc(db, "expenses", editObject.id);
+    await updateDoc(documentRef, {
+      name: name,
+      amount: amount,
+      category: category,
     });
   };
 
   const handleClose = () => {
     setOpen(false);
     setName("");
-    setAmount(0);
+    setAmount("");
     setCategory("");
   };
 
-  console.log(editObject)
+  useEffect(() => {
+    if (Object.keys(editObject).length != 0) {
+      setName(editObject.name);
+      setAmount(editObject.amount);
+      setCategory(editObject.category);
+    }
+  }, [editObject]);
 
   return (
     <>
@@ -51,6 +78,7 @@ let Popup = ({ open, setOpen, editObject }) => {
               label="Naam"
               id="name"
               autoComplete="off"
+              value={name}
               onChange={(e) => {
                 e.target.value =
                   e.target.value.charAt(0).toUpperCase() +
@@ -71,6 +99,7 @@ let Popup = ({ open, setOpen, editObject }) => {
                   <InputAdornment position="start">€</InputAdornment>
                 }
                 sx={{ width: 320, fontSize: 18 }}
+                value={amount}
                 onChange={(e) => setAmount(e.target.value)}
               />
             </FormControl>
@@ -107,14 +136,18 @@ let Popup = ({ open, setOpen, editObject }) => {
             <Button onClick={handleClose}>Cancel</Button>
             <Button
               onClick={() => {
-                createExpense();
+                if (Object.keys(editObject).length != 0) {
+                  updateExpense();
+                } else {
+                  createExpense();
+                }
                 handleClose();
               }}
               disabled={!name || !amount || !category}
               variant="contained"
               sx={{ width: 140 }}
             >
-              Voeg toe
+              {Object.keys(editObject).length != 0 ? "Edit" : "Voeg toe"}
             </Button>
           </DialogActions>
         </DialogContent>

@@ -30,14 +30,20 @@ let App = () => {
       alignItems="center"
       justifyContent="center"
     >
-      <Button variant="contained" onClick={() => {
-        setEditObject({})
-        setOpen(true)
-      }}>
-        Voeg uitgave toe
+      <Button
+        variant="contained"
+        onClick={() => {
+          setEditObject({});
+          setOpen(true);
+        }}
+      >
+        Voeg toe
       </Button>
       <Popup open={open} setOpen={setOpen} editObject={editObject} />
-      <Read setOpen={(open) => setOpen(open)} setEditObject={(editObject) => setEditObject(editObject)}  />
+      <Read
+        setOpen={(open) => setOpen(open)}
+        setEditObject={(editObject) => setEditObject(editObject)}
+      />
     </Grid>
   );
 };

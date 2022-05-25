@@ -38,7 +38,8 @@ let Read = ({ setOpen, setEditObject }) => {
       <Grid sx={{ display: "flex", flexDirection: "column", rowGap: "18px" }}>
         {expenses.map((expense, key) => {
           return (
-            <Grid key={key}
+            <Grid
+              key={key}
               sx={{
                 display: "flex",
                 justifyContent: "space-between",
@@ -63,17 +64,19 @@ let Read = ({ setOpen, setEditObject }) => {
               </Grid>
               <Grid sx={{ display: "flex" }}>
                 <Typography variant="body1">
-                  &minus; €{expense.amount.toFixed(2)}{""}
+                  &minus; €{expense.amount}
+                  {""}
                 </Typography>
                 <ModeEditOutlineOutlinedIcon
                   sx={{ height: 20, width: 20, ml: 4, cursor: "pointer" }}
                   onClick={() => {
-                    setOpen(true)
+                    setOpen(true);
                     setEditObject({
-                      index: key,
+                      id: expense.id,
                       name: expense.name,
                       amount: expense.amount,
-                      category: expense.category})
+                      category: expense.category,
+                    });
                   }}
                 />
               </Grid>

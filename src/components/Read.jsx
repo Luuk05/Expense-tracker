@@ -1,23 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
-import { collection, getDocs, addDoc } from "firebase/firestore";
-import FormControl from "@mui/material/FormControl";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import TextField from "@mui/material/TextField";
-import InputLabel from "@mui/material/InputLabel";
-import InputAdornment from "@mui/material/InputAdornment";
-import Button from "@mui/material/Button";
+import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import Grid from "@mui/material/Grid";
-import Select from "@mui/material/Select";
-import MenuItem from "@mui/material/MenuItem";
-import Stack from "@mui/material/Stack";
-import Paper from "@mui/material/Paper";
-import { styled } from "@mui/material/styles";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
-import { SvgIcon } from "@mui/material";
 import ModeEditOutlineOutlinedIcon from "@mui/icons-material/ModeEditOutlineOutlined";
-import Popup from "./Popup";
+import ClearIcon from "@mui/icons-material/Clear";
+import { blue } from "@mui/material/colors";
 
 let Read = ({ setOpen, setEditObject }) => {
   let [expenses, setExpenses] = useState([]);
@@ -30,11 +19,17 @@ let Read = ({ setOpen, setEditObject }) => {
       setExpenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getExpenses();
-  }, []);
+  }, [expenses]);
+
+  const removeExpense = async (documentId) => {
+    await deleteDoc(doc(db, "expenses", documentId));
+  };
 
   return (
     <>
-      <h1>Jouw uitgaven</h1>
+      <Typography variant="h1" sx={{ my: 4 }}>
+        Jouw uitgaven
+      </Typography>
       <Grid sx={{ display: "flex", flexDirection: "column", rowGap: "18px" }}>
         {expenses.map((expense, key) => {
           return (
@@ -53,7 +48,7 @@ let Read = ({ setOpen, setEditObject }) => {
             >
               <Grid sx={{ display: "flex", alignItems: "center" }}>
                 <Grid sx={{ display: "flex", alignItems: "center", pr: 2 }}>
-                  <Avatar>W</Avatar>
+                  <Avatar sx={{ bgcolor: blue[700], p: 0.2 }}>📅</Avatar>
                 </Grid>
                 <Grid>
                   <Typography variant="h6">{expense.name}</Typography>
@@ -63,12 +58,15 @@ let Read = ({ setOpen, setEditObject }) => {
                 </Grid>
               </Grid>
               <Grid sx={{ display: "flex" }}>
-                <Typography variant="body1">
-                  &minus; €{expense.amount}
-                  {""}
-                </Typography>
+                <Typography variant="body1">- €{expense.amount}</Typography>
                 <ModeEditOutlineOutlinedIcon
-                  sx={{ height: 20, width: 20, ml: 4, cursor: "pointer" }}
+                  sx={{
+                    height: 20,
+                    width: 20,
+                    ml: 4,
+                    mt: 0.3,
+                    cursor: "pointer",
+                  }}
                   onClick={() => {
                     setOpen(true);
                     setEditObject({
@@ -77,6 +75,18 @@ let Read = ({ setOpen, setEditObject }) => {
                       amount: expense.amount,
                       category: expense.category,
                     });
+                  }}
+                />
+                <ClearIcon
+                  sx={{
+                    height: 22,
+                    width: 22,
+                    ml: 2,
+                    mt: 0.3,
+                    cursor: "pointer",
+                  }}
+                  onClick={() => {
+                    removeExpense(expense.id);
                   }}
                 />
               </Grid>

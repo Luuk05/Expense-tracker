@@ -19,7 +19,7 @@ let Read = ({ setOpen, setEditObject }) => {
       setExpenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
     };
     getExpenses();
-  }, [expenses]);
+  }, []);
 
   const removeExpense = async (documentId) => {
     await deleteDoc(doc(db, "expenses", documentId));

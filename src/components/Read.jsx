@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { db } from "../firebaseConfig";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import { collection, getDocs, deleteDoc, doc, query, orderBy, where } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import Grid from "@mui/material/Grid";
 import Typography from "@mui/material/Typography";
 import Avatar from "@mui/material/Avatar";
@@ -11,7 +12,7 @@ import { blue } from "@mui/material/colors";
 let Read = ({ setOpen, setEditObject, change, setChange }) => {
   let [expenses, setExpenses] = useState([]);
 
-  let expensesRef = collection(db, "expenses");
+  let userId = getAuth().currentUser.uid;
 
   const removeExpense = async (documentId) => {
     setChange(true);
@@ -20,14 +21,14 @@ let Read = ({ setOpen, setEditObject, change, setChange }) => {
   
   useEffect(() => {
     const getExpenses = async () => {
-      let data = await getDocs(expensesRef);
+      let q = query(collection(db, "expenses"), where("userId", "==", userId));
+      let data = await getDocs(q);
       setExpenses(data.docs.map((doc) => ({ ...doc.data(), id: doc.id })));
 
       setChange(false);
     };
     getExpenses();
     
-    console.log('Changes? ', change)
   }, [change]);
 
   
@@ -77,7 +78,7 @@ let Read = ({ setOpen, setEditObject, change, setChange }) => {
                   onClick={() => {
                     setOpen(true);
                     setEditObject({
-                      id: expense.id,
+                      documentId: expense.documentId,
                       name: expense.name,
                       amount: expense.amount,
                       category: expense.category,
@@ -93,7 +94,7 @@ let Read = ({ setOpen, setEditObject, change, setChange }) => {
                     cursor: "pointer",
                   }}
                   onClick={() => {
-                    removeExpense(expense.id);
+                    removeExpense(expense.documentId);
                   }}
                 />
               </Grid>

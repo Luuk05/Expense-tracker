@@ -1,47 +1,47 @@
 import React, { useEffect, useState } from "react";
-import { db } from "./firebaseConfig";
-import { collection, getDocs, addDoc } from "firebase/firestore";
+import { auth } from "./firebaseConfig";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
-
-import Popup from "./components/Popup";
-import Read from "./components/Read";
+import Home from "./components/Home";
 
 let App = () => {
-  let [open, setOpen] = useState(false);
-  let [editObject, setEditObject] = useState({});
-  let [change, setChange] = useState(false);
+    let [userSigendIn, setUserSignedIn] = useState(false);
 
-  return (
-    <Grid
-      container
-      direction="column"
-      alignItems="center"
-      justifyContent="center"
-      padding={4}
-    >
-      <Button
-        variant="contained"
-        onClick={() => {
-          setEditObject({});
-          setOpen(true);
-        }}
-      >
-        Voeg toe
-      </Button>
-      <Popup 
-        open={open}
-        setOpen={setOpen}
-        editObject={editObject}
-        setChange={(change) => setChange(change)} />
-      <Read
-        setOpen={(open) => setOpen(open)}
-        setEditObject={(editObject) => setEditObject(editObject)}
-        change={change}
-        setChange={(change) => setChange(change)}
-      />
-    </Grid>
-  );
-};
+    const provider = new GoogleAuthProvider();
+
+    let signInWithGoogle = () => {
+        signInWithPopup(auth, provider).then((result) => {
+            setUserSignedIn(true);
+        }).catch((error) => {
+            console.log(error);
+        });
+    }
+
+    if (userSigendIn) {
+        return (
+            <>
+                <Home setUserSignedIn={setUserSignedIn} />
+            </>
+            
+        )
+    } else {
+        return (
+            <Grid
+                container
+                direction="column"
+                alignItems="center"
+                justifyContent="center"
+                padding={4}
+            >
+               <Button variant="contained" onClick={signInWithGoogle}>Sign in with Google</Button>
+            </Grid>
+            );
+    }
+
+    
+
+
+}
 
 export default App;

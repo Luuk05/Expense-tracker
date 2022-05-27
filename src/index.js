@@ -4,8 +4,6 @@ import { ThemeProvider } from "@mui/material/styles";
 import { createTheme } from "@mui/material/styles";
 import "./index.css";
 import App from "./App";
-import Read from "./components/Read.jsx";
-import Popup from "./components/Popup.jsx";
 
 const theme = createTheme({
   typography: {

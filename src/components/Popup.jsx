@@ -7,6 +7,7 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore";
+import { getAuth } from "firebase/auth";
 import FormControl from "@mui/material/FormControl";
 import OutlinedInput from "@mui/material/OutlinedInput";
 import TextField from "@mui/material/TextField";
@@ -26,6 +27,7 @@ let Popup = ({ open, setOpen, editObject, setChange }) => {
   let [category, setCategory] = useState("");
 
   let expensesRef = collection(db, "expenses");
+  let userId = getAuth().currentUser.uid;
 
   let createExpense = async () => {
     setChange(true);
@@ -33,12 +35,13 @@ let Popup = ({ open, setOpen, editObject, setChange }) => {
       name: name,
       amount: parseFloat(amount).toFixed(2),
       category: category,
+      userId: userId
     });
     const docId = docRef.id;
 
     const documentRef = doc(db, "expenses", docId);
     await updateDoc(documentRef, {
-      id: docId,
+      documentId: docId,
     });
   };
 

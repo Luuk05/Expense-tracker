@@ -35,7 +35,7 @@ let Popup = ({ open, setOpen, editObject, setChange }) => {
       name: name,
       amount: parseFloat(amount).toFixed(2),
       category: category,
-      userId: userId
+      userId: userId,
     });
     const docId = docRef.id;
 
@@ -47,7 +47,7 @@ let Popup = ({ open, setOpen, editObject, setChange }) => {
 
   let updateExpense = async () => {
     setChange(true);
-    const documentRef = doc(db, "expenses", editObject.id);
+    const documentRef = doc(db, "expenses", editObject.documentId);
     await updateDoc(documentRef, {
       name: name,
       amount: amount,

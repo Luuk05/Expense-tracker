@@ -41,6 +41,20 @@ let App = () => {
       />
     </Routes>
   );
+
+  // if (userSigendIn) {
+  //   return (
+  //     <>
+  //       <Home setUserSignedIn={setUserSignedIn} />
+  //     </>
+  //   );
+  // } else {
+  //   return (
+  //     <>
+  //       <Login signInWithGoogle={signInWithGoogle} />
+  //     </>
+  //   );
+  // }
 };
 
 export default App;

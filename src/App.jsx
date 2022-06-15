@@ -5,7 +5,14 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Home from "./components/Home";
 import Login from "./components/Login";
-import { Routes, Route, Link, Navigate, useNavigate } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Link,
+  Navigate,
+  useNavigate,
+} from "react-router-dom";
 
 let App = () => {
   let [userSigendIn, setUserSignedIn] = useState(false);

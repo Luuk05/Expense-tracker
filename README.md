@@ -17,6 +17,7 @@ export const db = getFirestore(app);
 
 and placed in src/firebaseConfig.js
 
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts

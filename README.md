@@ -1,6 +1,21 @@
 # Getting Started with Create React App
 
-Dit is een test
+Firebase should look like this:
+
+```jsx
+import { initializeApp } from "firebase/app";
+import { getFirestore } from "@firebase/firestore";
+import { getAuth } from "firebase/auth";
+
+const firebaseConfig = {};
+
+const app = initializeApp(firebaseConfig);
+
+export const auth = getAuth(app);
+export const db = getFirestore(app);
+```
+
+and placed in src/firebaseConfig.js
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
